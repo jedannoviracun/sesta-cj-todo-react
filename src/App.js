@@ -6,7 +6,8 @@ class App extends Component {
     super();
     this.state = {
       message: 'Hello Todo app!',
-      newTodo: ''
+      newTodo: '',
+      todos: []
     }
 
     this.formSubmitted = this.formSubmitted.bind(this)
@@ -21,7 +22,15 @@ class App extends Component {
 
     formSubmitted(event){
       event.preventDefault();
-      console.log(this.state.newTodo)
+      const todos = this.state.todos.slice()
+      todos.push({
+        title: this.state.newTodo,
+        done: false
+      })
+      this.setState({
+        newTodo:'',
+        todos
+      })
     }
 
   render() {
@@ -30,9 +39,14 @@ class App extends Component {
         <h3>{this.state.message}</h3>
         <form onSubmit={(event) => this.formSubmitted(event)}>
           <label htmlFor="newTodo">New Todo</label>
-          <input onChange={(event) => this.newTodoChanged(event)} id="newTodo" name="newTodo" />
+          <input onChange={(event) => this.newTodoChanged(event)} id="newTodo" name="newTodo" value={this.state.newTodo}/>
           <button type="submit">Add todo</button>
         </form>
+        <ul>
+          {this.state.todos.map(todo => {
+            return <li key={todo.title}>{todo.title}</li>
+          })}
+        </ul>
       </div>
     );
   }
