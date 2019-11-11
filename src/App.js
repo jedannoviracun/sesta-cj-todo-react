@@ -33,6 +33,16 @@ class App extends Component {
       })
     }
 
+    toggleTodoDone(event, index) {
+      console.log(event.target.checked)
+      const todos = [...this.state.todos]
+      todos[index] = {...todos[index]}
+      todos[index].done = event.target.checked
+      this.setState({
+        todos
+      })
+    }
+
   render() {
     return (
       <div className="App">
@@ -43,8 +53,10 @@ class App extends Component {
           <button type="submit">Add todo</button>
         </form>
         <ul>
-          {this.state.todos.map(todo => {
-            return <li key={todo.title}>{todo.title}</li>
+          {this.state.todos.map((todo, index) => {
+            return <li key={todo.title}>
+              <input onChange={(event) => this.toggleTodoDone(event)}type="checkbox" />
+            {todo.title}</li>
           })}
         </ul>
       </div>
